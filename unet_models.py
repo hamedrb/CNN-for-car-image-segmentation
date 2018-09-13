@@ -272,7 +272,7 @@ def unet_64_512_4(input_shape):
                    3,
                    activation='relu',
                    padding='same',
-                   kernel_initializer='he_normal')(pool3)
+                   kernel_initializer='he_normal')(pool4)
     conv5 = Conv2D(512,
                    3,
                    activation='relu',
@@ -287,7 +287,7 @@ def unet_64_512_4(input_shape):
                  activation='relu',
                  padding='same',
                  kernel_initializer='he_normal')(up6)
-    drop4_cropped = Cropping2D(cropping=((1, 0), (1, 0)))(drop4)
+    drop4_cropped = Cropping2D(cropping=((0, 0), (0, 0)))(drop4)
     merge6 = Concatenate(axis=3)([drop4_cropped, up6])
     conv6 = Conv2D(512,
                    3,
@@ -300,7 +300,7 @@ def unet_64_512_4(input_shape):
                    padding='same',
                    kernel_initializer='he_normal')(conv6)
     
-    up7 = UpSampling2D(size=(2, 2))(conv5)
+    up7 = UpSampling2D(size=(2, 2))(conv6)
     up7 = Conv2D(256,
                  2,
                  activation='relu',
@@ -325,7 +325,7 @@ def unet_64_512_4(input_shape):
                  activation='relu',
                  padding='same',
                  kernel_initializer='he_normal')(up8)
-    conv2_cropped = Cropping2D(cropping=((1, 1), (1, 0)))(conv2)
+    conv2_cropped = Cropping2D(cropping=((1, 1), (0, 0)))(conv2)
     merge8 = Concatenate(axis=3)([conv2_cropped, up8])
     conv8 = Conv2D(128,
                    3,
@@ -344,7 +344,7 @@ def unet_64_512_4(input_shape):
                  activation='relu',
                  padding='same',
                  kernel_initializer='he_normal')(up9)
-    conv1_cropped = Cropping2D(cropping=((2, 2), (2, 1)))(conv1)
+    conv1_cropped = Cropping2D(cropping=((3, 2), (0, 0)))(conv1)
     merge9 = Concatenate(axis=3)([conv1_cropped, up9])
     conv9 = Conv2D(64,
                    3,
