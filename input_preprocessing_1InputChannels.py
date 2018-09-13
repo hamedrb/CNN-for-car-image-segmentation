@@ -318,11 +318,11 @@ def dice_coef_loss(y_true, y_pred):
 
 ### train constants
 MODEL_WITH_MINIMUM_LOSS_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH,\
-                    'val_loss_min_unet'+N_FEATURE_MAP+N_DOWN_LAYERS+'.hdf5')
+         'val_loss_min_unet'+str(N_FEATURE_MAP)+str(N_DOWN_LAYERS)+'.hdf5')
 FINAL_MODEL_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH,\
-                                 'unet'+N_FEATURE_MAP+N_DOWN_LAYERS+'.hdf5')
+                      'unet'+str(N_FEATURE_MAP)+str(N_DOWN_LAYERS)+'.hdf5')
 HISTORY_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH, 'history'\
-                                     +N_FEATURE_MAP+N_DOWN_LAYERS+'.pickle')
+                          +str(N_FEATURE_MAP)+str(N_DOWN_LAYERS)+'.pickle')
 BATCH_SIZE = 32
 NUM_EPOCHS = 5
 LEARNING_RATE = 1e-2
