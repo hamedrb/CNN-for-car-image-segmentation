@@ -25,7 +25,7 @@ from tensorflow.keras.layers import (Input,
                                      Cropping2D)
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
-from unet_models import unet, unet_4_3
+from unet_models import unet, unet_64_512_4
 ###############################################################################
 
 ### Data constants
@@ -40,11 +40,12 @@ OUTPUT_PATH = '/home/analysisstation3/projects/CNNForCarSegmentation/output'
 DATA_OUTPUT_PATH = OUTPUT_PATH
 
 RESIZED_INPUT_WIDTH = 512 # resized width of input images
-RESIZED_OUTPUT_HEIGHT = 1995 # height of the mask that is out put of the Unet
-RESIZED_OUTPUT_WIDTH = 1995 # width of the mask that is out put of the Unet
+RESIZED_OUTPUT_HEIGHT = 336 # height of the mask that is out put of the Unet
+RESIZED_OUTPUT_WIDTH = 512 # width of the mask that is out put of the Unet
 PERCENT_OF_EVAL = 10
 
-N_FEATURE_MAP = 64 # number of the feature maps of the first CONV2 layer
+N_FEATURE_MAP_1 = 64 # number of the feature maps of the first CONV2 layer
+N_FEATURE_MAP_c = 512 # number of the feature maps of the central part of Unet
 N_DOWN_LAYERS = 4 # number of the down layers
 
 ### lists of train/test files
@@ -318,12 +319,12 @@ def dice_coef_loss(y_true, y_pred):
 
 ### train constants
 MODEL_WITH_MINIMUM_LOSS_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH,\
-         'val_loss_min_unet'+str(N_FEATURE_MAP)+str(N_DOWN_LAYERS)+'.hdf5')
+         'val_loss_min_unet'+str(N_FEATURE_MAP_1)+str(N_FEATURE_MAP_c)+str(N_DOWN_LAYERS)+'.hdf5')
 FINAL_MODEL_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH,\
-                      'unet'+str(N_FEATURE_MAP)+str(N_DOWN_LAYERS)+'.hdf5')
+                      'unet'+str(N_FEATURE_MAP_1)+str(N_FEATURE_MAP_c)+str(N_DOWN_LAYERS)+'.hdf5')
 HISTORY_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH, 'history'\
-                          +str(N_FEATURE_MAP)+str(N_DOWN_LAYERS)+'.pickle')
-BATCH_SIZE = 32
+                          +str(N_FEATURE_MAP_1)+str(N_FEATURE_MAP_c)+str(N_DOWN_LAYERS)+'.pickle')
+BATCH_SIZE = 16
 NUM_EPOCHS = 5
 LEARNING_RATE = 1e-2
 EARLY_STOP_VAL_PATIENCE = 25
