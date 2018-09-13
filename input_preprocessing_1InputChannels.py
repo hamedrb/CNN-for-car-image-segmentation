@@ -39,8 +39,9 @@ TEST_DATA = os.path.join(DATA_PATH, "test")
 OUTPUT_PATH = '/home/analysisstation3/projects/CNNForCarSegmentation/output'
 DATA_OUTPUT_PATH = OUTPUT_PATH
 
-RESIZED_HEIGHT = 1564
-RESIZED_WIDTH = 1995
+RESIZED_INPUT_WIDTH = 512 # resized width of input images
+RESIZED_OUTPUT_HEIGHT = 1995 # height of the mask that is out put of the Unet
+RESIZED_OUTPUT_WIDTH = 1995 # width of the mask that is out put of the Unet
 PERCENT_OF_EVAL = 10
 
 ### lists of train/test files
@@ -129,7 +130,7 @@ def hard_resize(image, output_shape):
 def _get_image_data_opencv(image_id, image_type, **kwargs):
     fname = get_input_filename(image_id, image_type)
     img = cv2.imread(fname)
-    img = resize_image_while_maintaining_aspect_ratio(img, RESIZED_WIDTH)
+    img = resize_image_while_maintaining_aspect_ratio(img, RESIZED_INPUT_WIDTH)
     assert img is not None, "Failed to read image : %s, %s" % (image_id, image_type)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #Changing Color-space to gray scale
     return img
@@ -138,7 +139,7 @@ def _get_image_data_pil(image_id, image_type):
     fname = get_input_filename(image_id, image_type)
     img_pil = Image.open(fname)
     img = np.asarray(img_pil)
-    img = hard_resize(img, output_shape=(1992, 1560))
+    img = hard_resize(img, output_shape=(RESIZED_OUTPUT_WIDTH, RESIZED_OUTPUT_HEIGHT))
     return img
 
 
@@ -234,7 +235,7 @@ def split_train_eval(images, masks, percent_of_eval):
 image_shape  = image_shape_dtype('Train')[0]
 resized_height = image_shape[0]
 TRAIN_OUTPUT_DATA_FPATH = get_preprocessedData_filename('Train',\
-                                            resized_height, RESIZED_WIDTH)
+                                            resized_height, RESIZED_INPUT_WIDTH)
 if os.path.exists(TRAIN_OUTPUT_DATA_FPATH):
     images = np.load(TRAIN_OUTPUT_DATA_FPATH)
     print('Preprocessed data loaded!')
@@ -244,11 +245,11 @@ else:
     print('Data preprocessed and saved!')
 
 
-image_shape = image_shape_dtype('Train_mask')
+image_shape = image_shape_dtype('Train_mask')[0]
 resized_height = image_shape[0]
 resized_width = image_shape[1]
 TRAIN_OUTPUT_DATA_MASK_FPATH = get_preprocessedData_filename('Train_mask',\
-                                                resized_height, resized_width)
+                                                RESIZED_OUTPUT_WIDTH, RESIZED_OUTPUT_WIDTH)
 if os.path.exists(TRAIN_OUTPUT_DATA_MASK_FPATH):
     masks = np.load(TRAIN_OUTPUT_DATA_MASK_FPATH)
     print('Preprocessed data loaded!')
