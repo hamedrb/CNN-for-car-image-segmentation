@@ -44,6 +44,9 @@ RESIZED_OUTPUT_HEIGHT = 1995 # height of the mask that is out put of the Unet
 RESIZED_OUTPUT_WIDTH = 1995 # width of the mask that is out put of the Unet
 PERCENT_OF_EVAL = 10
 
+N_FEATURE_MAP = 64 # number of the feature maps of the first CONV2 layer
+N_DOWN_LAYERS = 4 # number of the down layers
+
 ### lists of train/test files
 train_files = glob(os.path.join(TRAIN_DATA, "*.jpg"))
 train_ids = [s[len(TRAIN_DATA)+1:-4] for s in train_files]
@@ -314,10 +317,13 @@ def dice_coef_loss(y_true, y_pred):
 
 
 ### train constants
-MODEL_WITH_MINIMUM_LOSS_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH, 'val_loss_min_unet.hdf5')
-FINAL_MODEL_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH, 'unet.hdf5')
-HISTORY_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH, 'history.pickle')
-BATCH_SIZE = 8
+MODEL_WITH_MINIMUM_LOSS_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH,\
+                    'val_loss_min_unet'+N_FEATURE_MAP+N_DOWN_LAYERS+'.hdf5')
+FINAL_MODEL_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH,\
+                                 'unet'+N_FEATURE_MAP+N_DOWN_LAYERS+'.hdf5')
+HISTORY_ABSOLUTE_FPATH = os.path.join(OUTPUT_PATH, 'history'\
+                                     +N_FEATURE_MAP+N_DOWN_LAYERS+'.pickle')
+BATCH_SIZE = 32
 NUM_EPOCHS = 5
 LEARNING_RATE = 1e-2
 EARLY_STOP_VAL_PATIENCE = 25
