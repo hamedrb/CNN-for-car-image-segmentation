@@ -38,9 +38,9 @@ TEST_DATA = os.path.join(DATA_PATH, "test")
 
 OUTPUT_PATH = '/home/analysisstation3/projects/CNNForCarSegmentation/output'
 DATA_OUTPUT_PATH = OUTPUT_PATH
-TRAIN_OUTPUT_DATA_FPATH = os.path.join(DATA_OUTPUT_PATH, 'train_data_preprocessed_1channel.npy')
-TRAIN_OUTPUT_DATA_MASK_FPATH = os.path.join(DATA_OUTPUT_PATH, 'train_mask_data_preprocessed.npy')
-TEST_OUTPUT_DATA_FPATH = os.path.join(DATA_OUTPUT_PATH, 'test_data_preprocessed.npy')
+TRAIN_OUTPUT_DATA_FPATH = os.path.join(DATA_OUTPUT_PATH, 'train_data_preprocessed_1channel')
+TRAIN_OUTPUT_DATA_MASK_FPATH = os.path.join(DATA_OUTPUT_PATH, 'train_mask_data_preprocessed')
+TEST_OUTPUT_DATA_FPATH = os.path.join(DATA_OUTPUT_PATH, 'test_data_preprocessed')
 
 RESIZED_HEIGHT = 1564
 RESIZED_WIDTH = 1995
@@ -78,6 +78,24 @@ def get_input_filename(image_id, image_type):
 
     return os.path.join(data_path, "{}{}.{}".format(image_id, suffix, ext))
 
+
+
+def get_preprocessedData_filename(image_type):
+    ext = 'npy'
+    data_path = DATA_OUTPUT_PATH
+    common_name = 'data_preprocessed'
+    
+    if image_type == 'Train':
+        suffix = 'train'
+    elif image_type == 'Train_mask'
+        suffix = 'train_mask'
+    elif image_type == 'test':
+        suffix = 'test'
+    
+    return os.path.join(data_path, "{}_{}_h{}_w{}.{}".format(suffix, \
+                            common_name, RESIZED_HEIGHT, RESIZED_WIDTH, ext))
+        
+        
 
 def get_image_data(image_id, image_type, **kwargs):
     if 'mask' in image_type:
