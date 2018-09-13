@@ -56,7 +56,7 @@ test_ids = [s[len(TEST_DATA)+1:-4] for s in test_files]
 
 ### load and preprocess images and masks
 
-def get_filename(image_id, image_type):
+def get_input_filename(image_id, image_type):
     check_dir = False
     if "Train" == image_type:
         ext = 'jpg'
@@ -112,7 +112,7 @@ def hard_resize(image, output_shape):
     
     
 def _get_image_data_opencv(image_id, image_type, **kwargs):
-    fname = get_filename(image_id, image_type)
+    fname = get_input_filename(image_id, image_type)
     img = cv2.imread(fname)
     img = hard_resize(img, output_shape=(RESIZED_WIDTH, RESIZED_HEIGHT))
     assert img is not None, "Failed to read image : %s, %s" % (image_id, image_type)
@@ -121,7 +121,7 @@ def _get_image_data_opencv(image_id, image_type, **kwargs):
 
 
 def _get_image_data_pil(image_id, image_type):
-    fname = get_filename(image_id, image_type)
+    fname = get_input_filename(image_id, image_type)
     img_pil = Image.open(fname)
     img = np.asarray(img_pil)
     img = hard_resize(img, output_shape=(1992, 1560))
