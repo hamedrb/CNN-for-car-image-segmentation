@@ -103,7 +103,7 @@ def unet(input_shape):
                  activation='relu',
                  padding='same',
                  kernel_initializer='he_normal')(up6)
-    drop4_cropped = Cropping2D(cropping=((1, 0), (1, 0)))(drop4)
+    drop4_cropped = Cropping2D(cropping=((0, 0), (0, 0)))(drop4)
     merge6 = Concatenate(axis=3)([drop4_cropped, up6])
     conv6 = Conv2D(512,
                    3,
@@ -122,7 +122,7 @@ def unet(input_shape):
                  activation='relu',
                  padding='same',
                  kernel_initializer='he_normal')(up7)
-    conv3_cropped = Cropping2D(cropping=((2, 1), (1, 1)))(conv3)
+    conv3_cropped = Cropping2D(cropping=((1, 0), (0, 0)))(conv3)
     merge7 = Concatenate(axis=3)([conv3_cropped, up7])
     conv7 = Conv2D(256,
                    3,
@@ -141,7 +141,7 @@ def unet(input_shape):
                  activation='relu',
                  padding='same',
                  kernel_initializer='he_normal')(up8)
-    conv2_cropped = Cropping2D(cropping=((3, 3), (3, 2)))(conv2)
+    conv2_cropped = Cropping2D(cropping=((1, 1), (0, 0)))(conv2)
     merge8 = Concatenate(axis=3)([conv2_cropped, up8])
     conv8 = Conv2D(128,
                    3,
@@ -160,7 +160,7 @@ def unet(input_shape):
                  activation='relu',
                  padding='same',
                  kernel_initializer='he_normal')(up9)
-    conv1_cropped = Cropping2D(cropping=((6, 6), (6, 5)))(conv1)
+    conv1_cropped = Cropping2D(cropping=((3, 2), (0, 0)))(conv1)
     merge9 = Concatenate(axis=3)([conv1_cropped, up9])
     conv9 = Conv2D(64,
                    3,

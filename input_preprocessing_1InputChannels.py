@@ -374,7 +374,7 @@ def train(val_loss_min_fpath,
     '''
     input_shape = img_train.shape[1:] #he shape of one image in the dataset, for instance (341, 512, 3)
         
-    model = unet_4_3(input_shape)
+    model = unet(input_shape)
     model.summary()
     model.compile(optimizer=Adam(lr=learning_rate),
                   loss=dice_coef_loss,
