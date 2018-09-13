@@ -25,7 +25,7 @@ from tensorflow.keras.layers import (Input,
                                      Cropping2D)
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
-from unet_models import unet, unet_64_512_4
+from unet_models import unet, unet_64_256_4
 ###############################################################################
 
 ### Data constants
@@ -45,7 +45,7 @@ RESIZED_OUTPUT_WIDTH = 512 # width of the mask that is out put of the Unet
 PERCENT_OF_EVAL = 10
 
 N_FEATURE_MAP_1 = 64 # number of the feature maps of the first CONV2 layer
-N_FEATURE_MAP_c = 512 # number of the feature maps of the central part of Unet
+N_FEATURE_MAP_c = 256 # number of the feature maps of the central part of Unet
 N_DOWN_LAYERS = 4 # number of the down layers
 
 ### lists of train/test files
@@ -375,7 +375,7 @@ def train(val_loss_min_fpath,
     '''
     input_shape = img_train.shape[1:] #he shape of one image in the dataset, for instance (341, 512, 3)
         
-    model = unet(input_shape)
+    model = unet_64_256_4(input_shape)
     model.summary()
     model.compile(optimizer=Adam(lr=learning_rate),
                   loss=dice_coef_loss,

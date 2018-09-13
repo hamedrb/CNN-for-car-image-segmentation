@@ -188,7 +188,7 @@ def unet(input_shape):
 ###############################################################################
 ###############################################################################
 
-def unet_64_512_4(input_shape):
+def unet_64_256_4(input_shape):
     '''
     Params: input_shape -- the shape of the images that are input to the model
                            in the form (width_or_height, width_or_height,
@@ -254,12 +254,12 @@ def unet_64_512_4(input_shape):
                    kernel_initializer='he_normal')(conv3)
     pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
 
-    conv4 = Conv2D(512,
+    conv4 = Conv2D(256,
                    3,
                    activation='relu',
                    padding='same',
                    kernel_initializer='he_normal')(pool3)
-    conv4 = Conv2D(512,
+    conv4 = Conv2D(256,
                    3,
                    activation='relu',
                    padding='same',
@@ -268,12 +268,12 @@ def unet_64_512_4(input_shape):
     pool4 = MaxPooling2D(pool_size=(2, 2))(drop4)
 
     ## center
-    conv5 = Conv2D(512,
+    conv5 = Conv2D(256,
                    3,
                    activation='relu',
                    padding='same',
                    kernel_initializer='he_normal')(pool4)
-    conv5 = Conv2D(512,
+    conv5 = Conv2D(256,
                    3,
                    activation='relu',
                    padding='same',
@@ -282,19 +282,19 @@ def unet_64_512_4(input_shape):
     
     ## up
     up6 = UpSampling2D(size=(2, 2))(drop5)
-    up6 = Conv2D(512,
+    up6 = Conv2D(256,
                  2,
                  activation='relu',
                  padding='same',
                  kernel_initializer='he_normal')(up6)
     drop4_cropped = Cropping2D(cropping=((0, 0), (0, 0)))(drop4)
     merge6 = Concatenate(axis=3)([drop4_cropped, up6])
-    conv6 = Conv2D(512,
+    conv6 = Conv2D(256,
                    3,
                    activation='relu',
                    padding='same',
                    kernel_initializer='he_normal')(merge6)
-    conv6 = Conv2D(512,
+    conv6 = Conv2D(256,
                    3,
                    activation='relu',
                    padding='same',
