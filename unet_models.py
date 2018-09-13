@@ -201,7 +201,7 @@ def unet_64_512_4(input_shape):
                       been modified to keep up with API changes in keras 2.
     Note: In the name of the net (here unet_8_3): 
                     the first number is the number of the first feature map (i.e. 64)
-                    the second number is the number of the first feature map (i.e. 1024)
+                    the second number is the number of the central feature map (i.e. 1024)
                     the third number is the number of down layers (i.e. 4)
     By: Microsoft [https://notebooks.azure.com/mameehan/libraries/unet/html/unet_pipeline.ipynb]
     '''
