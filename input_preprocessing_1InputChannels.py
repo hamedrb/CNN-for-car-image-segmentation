@@ -98,7 +98,7 @@ def get_image_data(image_id, image_type, **kwargs):
     if 'mask' in image_type:
         img = _get_image_data_pil(image_id, image_type, **kwargs)
     else:
-        img = _get_image_data_opencv(image_id, image_type, **kwargs)
+        img, resized_height = _get_image_data_opencv(image_id, image_type, **kwargs)
     return img
 
 def resize_image_while_maintaining_aspect_ratio(image, resized_width):
