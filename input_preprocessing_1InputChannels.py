@@ -118,7 +118,7 @@ def resize_image_while_maintaining_aspect_ratio(image, resized_width):
     width_ratio = resized_width / image_width
     resized_height = int(image_height * width_ratio)
     image = cv2.resize(image, (resized_width, resized_height))
-    return image, resized_height
+    return image
 
 
 def hard_resize(image, output_shape):
@@ -129,11 +129,10 @@ def hard_resize(image, output_shape):
 def _get_image_data_opencv(image_id, image_type, **kwargs):
     fname = get_input_filename(image_id, image_type)
     img = cv2.imread(fname)
-    img, resized_height = resize_image_while_maintaining_aspect_ratio(img, RESIZED_WIDTH)
+    img = resize_image_while_maintaining_aspect_ratio(img, RESIZED_WIDTH)
     assert img is not None, "Failed to read image : %s, %s" % (image_id, image_type)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #Changing Color-space to gray scale
-    return img, resized_height
-
+    return img
 
 def _get_image_data_pil(image_id, image_type):
     fname = get_input_filename(image_id, image_type)
