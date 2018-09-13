@@ -77,7 +77,7 @@ def get_input_filename(image_id, image_type):
 
 
 
-def get_preprocessedData_filename(image_type):
+def get_preprocessedData_filename(image_type, resized_height, resized_width):
     ext = 'npy'
     data_path = DATA_OUTPUT_PATH
     common_name = 'data_preprocessed'
@@ -90,7 +90,7 @@ def get_preprocessedData_filename(image_type):
         suffix = 'test'
     
     return os.path.join(data_path, "{}_{}_h{}_w{}.{}".format(suffix, \
-                            common_name, RESIZED_HEIGHT, RESIZED_WIDTH, ext))
+                            common_name, resized_height, resized_width, ext))
         
         
 
@@ -118,7 +118,7 @@ def resize_image_while_maintaining_aspect_ratio(image, resized_width):
     width_ratio = resized_width / image_width
     resized_height = int(image_height * width_ratio)
     image = cv2.resize(image, (resized_width, resized_height))
-    return image
+    return image, resized_height
 
 
 def hard_resize(image, output_shape):
@@ -232,7 +232,8 @@ def split_train_eval(images, masks, percent_of_eval):
     return images, masks, images_eval, masks_eval
     
 
-TRAIN_OUTPUT_DATA_FPATH = get_preprocessedData_filename(image_type='Train')
+TRAIN_OUTPUT_DATA_FPATH = get_preprocessedData_filename(image_type='Train',\
+                                                resized_height, RESIZED_WIDTH)
 if os.path.exists(TRAIN_OUTPUT_DATA_FPATH):
     images = np.load(TRAIN_OUTPUT_DATA_FPATH)
     print('Preprocessed data loaded!')
@@ -241,7 +242,8 @@ else:
     np.save(TRAIN_OUTPUT_DATA_FPATH, images)
     print('Data preprocessed and saved!')
 
-TRAIN_OUTPUT_DATA_MASK_FPATH = get_preprocessedData_filename(image_type='Train_mask')
+TRAIN_OUTPUT_DATA_MASK_FPATH = get_preprocessedData_filename(\
+                        image_type='Train_mask', resized_height, RESIZED_WIDTH)
 if os.path.exists(TRAIN_OUTPUT_DATA_MASK_FPATH):
     masks = np.load(TRAIN_OUTPUT_DATA_MASK_FPATH)
     print('Preprocessed data loaded!')
