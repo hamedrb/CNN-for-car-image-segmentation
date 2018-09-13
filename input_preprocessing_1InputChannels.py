@@ -79,6 +79,18 @@ def get_input_filename(image_id, image_type):
 
 
 def get_preprocessedData_filename(image_type, resized_height, resized_width):
+    '''
+    give the path and name to the preprocessed train, mask and test data for
+    loading them from disk or saving them on disk
+    
+    Params: image_type e.g. "Train", "Train_mask" or "Test"
+            resized_height: new height of the image, an integer
+            resized_width: new width of the image, an integer
+    
+    Returns: a path+name of the preprocessed train, mask and test data
+    
+    By: Hamed
+    '''
     ext = 'npy'
     data_path = DATA_OUTPUT_PATH
     common_name = 'data_preprocessed'
