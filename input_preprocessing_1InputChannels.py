@@ -231,6 +231,8 @@ def split_train_eval(images, masks, percent_of_eval):
     return images, masks, images_eval, masks_eval
     
 
+image_shape = image_shape_dtype('Train')
+resized_height = image_shape[0]
 TRAIN_OUTPUT_DATA_FPATH = get_preprocessedData_filename(image_type='Train',\
                                                 resized_height, RESIZED_WIDTH)
 if os.path.exists(TRAIN_OUTPUT_DATA_FPATH):
@@ -241,8 +243,12 @@ else:
     np.save(TRAIN_OUTPUT_DATA_FPATH, images)
     print('Data preprocessed and saved!')
 
+
+image_shape = image_shape_dtype('Train_mask')
+resized_height = image_shape[0]
+resized_width = image_shape[1]
 TRAIN_OUTPUT_DATA_MASK_FPATH = get_preprocessedData_filename(\
-                        image_type='Train_mask', resized_height, RESIZED_WIDTH)
+                        image_type='Train_mask', resized_height, resized_width)
 if os.path.exists(TRAIN_OUTPUT_DATA_MASK_FPATH):
     masks = np.load(TRAIN_OUTPUT_DATA_MASK_FPATH)
     print('Preprocessed data loaded!')
