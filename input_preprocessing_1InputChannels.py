@@ -38,9 +38,6 @@ TEST_DATA = os.path.join(DATA_PATH, "test")
 
 OUTPUT_PATH = '/home/analysisstation3/projects/CNNForCarSegmentation/output'
 DATA_OUTPUT_PATH = OUTPUT_PATH
-TRAIN_OUTPUT_DATA_FPATH = os.path.join(DATA_OUTPUT_PATH, 'train_data_preprocessed_1channel')
-TRAIN_OUTPUT_DATA_MASK_FPATH = os.path.join(DATA_OUTPUT_PATH, 'train_mask_data_preprocessed')
-TEST_OUTPUT_DATA_FPATH = os.path.join(DATA_OUTPUT_PATH, 'test_data_preprocessed')
 
 RESIZED_HEIGHT = 1564
 RESIZED_WIDTH = 1995
@@ -89,7 +86,7 @@ def get_preprocessedData_filename(image_type):
         suffix = 'train'
     elif image_type == 'Train_mask'
         suffix = 'train_mask'
-    elif image_type == 'test':
+    elif image_type == 'Test':
         suffix = 'test'
     
     return os.path.join(data_path, "{}_{}_h{}_w{}.{}".format(suffix, \
@@ -235,7 +232,7 @@ def split_train_eval(images, masks, percent_of_eval):
     return images, masks, images_eval, masks_eval
     
 
-
+TRAIN_OUTPUT_DATA_FPATH = get_preprocessedData_filename(image_type='Train')
 if os.path.exists(TRAIN_OUTPUT_DATA_FPATH):
     images = np.load(TRAIN_OUTPUT_DATA_FPATH)
     print('Preprocessed data loaded!')
@@ -243,7 +240,8 @@ else:
     images = load_images('Train')
     np.save(TRAIN_OUTPUT_DATA_FPATH, images)
     print('Data preprocessed and saved!')
-    
+
+TRAIN_OUTPUT_DATA_MASK_FPATH = get_preprocessedData_filename(image_type='Train_mask')
 if os.path.exists(TRAIN_OUTPUT_DATA_MASK_FPATH):
     masks = np.load(TRAIN_OUTPUT_DATA_MASK_FPATH)
     print('Preprocessed data loaded!')
